@@ -1,0 +1,34 @@
+@use "sass:map";
+@import "../../styles/_var";
+
+.container {
+  flex: 0 0 auto;
+  padding: 0.5rem 1rem 1.5rem;
+  background-color: map.get($colors, bgHeader);
+}
+
+.searchBlock {
+  margin-right: auto;
+  margin-left: auto;
+
+  max-width: 720px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  @media screen and (min-width: 1080px) {
+    padding: 2rem 2rem 1.5rem;
+  }
+}
+
+.selects {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.selects > * {
+  margin-top: 2rem;
+}
+

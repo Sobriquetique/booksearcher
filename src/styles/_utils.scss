@@ -1,0 +1,10 @@
+@import "_var";
+
+@mixin StandartButton {
+  outline: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5em 1em;
+  transition: background-color 0.3s ease-out, color 0.3s ease-out;
+  
+}

@@ -1,0 +1,72 @@
+@use "sass:map";
+@import "../../styles/_var";
+
+$fontSize: 2rem;
+.mainWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.labelElem {
+  margin-bottom: 0.5rem;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.inputWrapper {
+  position: relative;
+
+  min-width: 240px;
+  border: 3px solid;
+  border-color: rgb(163, 163, 163);
+  border-radius: 0.5rem;
+  background-color: white;
+  display: flex;
+  padding: 0.25rem 0rem 0.25rem 0.5rem;
+  transition: border-color 0.3s ease;
+}
+
+.inputWrapper:hover, .inputWrapper.focused, .inputWrapper.inputWrapper.hasText {
+  border-color: rgb(186, 166, 187);
+}
+.inputWrapper:hover::after, .inputWrapper.focused::after, .inputWrapper.hasText::after {
+  opacity: 1;
+}
+
+.inputWrapper::after {
+  z-index: map.get($z-indices, pseudoShadow);
+
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: 0 0 15px 3px rgb(205, 196, 207);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.inputElem {
+  z-index: map.get($z-indices, input);
+  flex: 1 1;
+  width: 0;
+
+  background-color: inherit;
+  outline: none;
+  border: none;
+
+  font-size: $fontSize;
+}
+
+.buttonElem {
+  z-index: map.get($z-indices, input);
+  flex: 0 0 auto;
+  padding: 0;
+  background-color: rgb(0 0 0 / 0);
+  color: gray;
+}
+
+.iElem {
+  font-size: $fontSize;
+}

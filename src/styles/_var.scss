@@ -1,0 +1,29 @@
+$breakpointMobile: 1080px;
+
+$colors: (
+  bgMain: #F4F1DE,
+  bgHeader: #3D405B,
+  bgFooter: #F4F1DE,
+  textMain: black,
+);
+
+$fontNormal: Arial, sans-serif;
+$fontCursive: "Caveat", cursive;
+
+$z-indices: (
+  pseudoShadow: 0,
+  input: 1,
+
+  card: 1,
+  cardPseudoShadow: 0,
+
+  cardHovered: 1,
+  cardPseudoShadowHovered: 2,
+
+  dropdownMenu: 2
+);
+
+$breakpoints: (
+  cardWide: 480px,
+  cardDesktop: 720px,
+);

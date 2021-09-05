@@ -1,0 +1,50 @@
+@use "sass:map";
+@import "_var";
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+a {
+  font-weight: bold;
+  color: #2e5eab;
+}
+a:hover, a:focus-visible {
+  color: #b51fa6; 
+}
+a:active {
+  color: black;
+}
+
+.appContainer {
+  background-color: map.get($colors, bgMain);
+  color: map.get($colors, textMain);
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1 0 auto;
+}
+
+.raw-button {
+  outline: none;
+  border: none;
+  padding: 0.5em 1em;
+  transition: background-color 0.3s ease-out, color 0.3s ease-out;
+  cursor: pointer;
+}

@@ -1,0 +1,99 @@
+@use "sass:map";
+@import "src/styles/_var";
+
+$cardWidth: 16rem;
+.container {
+  flex: 0 0;
+
+  z-index: map.get($z-indices, card);
+  position: relative;
+  background-color: rgb(231, 231, 231);
+  border-radius: 3px;
+  transition: transform 0.3s ease;
+  
+  cursor: pointer;
+  
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  @media screen and (min-width: map.get($breakpoints, cardWide)) {
+    flex-direction: row;
+  }
+  @media screen and (min-width: map.get($breakpoints, cardDesktop)) {
+    min-width: $cardWidth;
+    width: $cardWidth;
+    max-width: $cardWidth;
+
+    flex-direction: column;
+  }
+}
+.container:hover {
+  z-index: map.get($z-indices, cardHovered);
+  transform: translateY(-4px);
+}
+.container:hover::after {
+  opacity: 1;
+  z-index: map.get($z-indices, cardPseudoShadowHovered);
+}
+
+.container::after {
+  z-index: map.get($z-indices, cardPseudoShadow);
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  box-shadow: 0 5px 20px 0px rgb(67, 64, 68);
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.imgFit {
+  flex: 0 0 auto;
+  margin: 1rem 1rem;
+  img {
+    width: 120px;
+    min-width: 120px;
+    height: 180px;
+    min-height: 180px;
+    object-fit: cover;
+    box-shadow: 10px 10px 8px 0px rgba(0, 0, 0, 0.397);
+  }
+}
+
+.body {
+  flex: 1 1 auto;
+  align-self: stretch;
+
+  padding: 0 1rem 1rem;
+
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (min-width: map.get($breakpoints, cardWide)) {
+    padding: 1rem 1rem 1rem 0.2rem;
+  }
+  @media screen and (min-width: map.get($breakpoints, cardDesktop)) {
+    padding: 0 1rem 1rem;
+  }
+}
+
+.category {
+  color:rgb(126, 125, 125);
+  font-weight: bold;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.title {
+  line-height: 1.4rem;
+  color: rgb(66, 64, 66);
+  font-weight: bold;
+  font-family:Arial, Helvetica, sans-serif;
+  margin: 1.5rem 0 0.6rem 0;
+}
+
+.authors {
+  line-height: 1.2rem;
+  color: rgb(105, 104, 105);
+}
