@@ -38,15 +38,23 @@ export const PreviewsScreen = () => {
       <AsyncButton 
         isLoading={status === "loading"}
         error={!!error}
-        className={STYLES.loadMoreButton}
+        className={{
+          "idle": STYLES.loadMoreButton,
+          "error": `${STYLES.loadMoreButton} ${STYLES.error}`,
+          "loading": `${STYLES.loadMoreButton} ${STYLES.loading}`,
+          "success": `${STYLES.loadMoreButton} ${STYLES.success}`,
+        }}
         iconClass={{
+          idle: "icon-down-open",
+          error: "icon-cw",
           loading: "icon-arrows-cw spin",
-          idle: "icon-down-open"
+          success: "icon-ok"
         }}
         text={{
           idle: "Load more",
+          error: "Try again?",
           loading: "Loading...",
-          error: "Try again?"
+          success: "Loaded"
         }}
         onClick={loadMore}
       />

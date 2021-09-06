@@ -53,6 +53,15 @@
     margin-right: 0.4em;
   }
 }
+.loadMoreButton.error {
+  background-color: rgb(175, 68, 68);
+}
+.loadMoreButton.loading {
+  background-color: rgb(126, 126, 126);
+}
+.loadMoreButton.success {
+  background-color: rgb(54, 153, 54);
+}
 
 .loadMoreButton:hover, .loadMoreButton:focus-visible {
   background-color: rgb(117, 96, 192);
