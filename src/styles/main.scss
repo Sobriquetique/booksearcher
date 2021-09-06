@@ -41,26 +41,19 @@ a:active {
   flex: 1 0 auto;
 }
 
-.raw-button {
-  outline: none;
-  border: none;
-  padding: 0.5em 1em;
-  transition: background-color 0.3s ease-out, color 0.3s ease-out;
-  cursor: pointer;
-}
-
 .spin {
-  animation: spin 2s cubic-bezier(.27,.87,.78,.24) infinite;
+  animation: noscope 2s linear infinite;
+  z-index: 100;
 }
 
-@keyframes spin {
+@keyframes noscope {
   0% {
     transform: rotate(0);
   }
   50% {
-    transform: rotate(180);
+    transform: rotate(180deg);
   }
-  99% {
-    transform: rotate(359);
+  100% {
+    transform: rotate(360deg);
   }
 }

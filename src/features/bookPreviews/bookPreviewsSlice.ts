@@ -99,3 +99,10 @@ export default reducer;
 export const { clearBookPreviews } = actions;
 
 export const useBookPreviews = (): RootState["bookPreviews"] => useSelector((state: RootState) => state.bookPreviews);
+export const useBookPreviewsStatus = (): {
+  error: RootState["bookPreviews"]["error"],
+  status: RootState["bookPreviews"]["status"]
+} => useSelector((state: RootState) => ({
+  error: state.bookPreviews.error,
+  status: state.bookPreviews.status
+}));

@@ -22,8 +22,7 @@ export const Header: FunctionComponent = () => {
     setSearchValue(event.target.value);
   };
 
-  const doSearch = (event: React.MouseEvent) => {
-    event.preventDefault();
+  const doSearch = () => {
     dispatch(fetchFreshBookPreviews({
       query: searchValue,
       category,

@@ -5,7 +5,6 @@ import { Footer } from "src/components/Footer";
 import { Provider } from "react-redux";
 import { store } from "src/store/store";
 import { Content } from "../Content";
-import { useEffect } from "react";
 
 
 export const App = (): JSX.Element => {

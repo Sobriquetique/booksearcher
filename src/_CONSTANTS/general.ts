@@ -6,4 +6,4 @@ export const RESIZE_THROTTLE_INTERVAL = 1000 / 15;
 export const BACKEND_BASE_URL = "http://localhost:4000/";
 
 /** Дефолтная пагинация для превью книг */
-export const DEFAULT_MAX_RESULTS = 3;
+export const DEFAULT_MAX_RESULTS = 1;

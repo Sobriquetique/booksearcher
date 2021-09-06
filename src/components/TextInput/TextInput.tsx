@@ -1,13 +1,14 @@
 import { ChangeEvent, FunctionComponent, useEffect, useRef, useState } from "react";
+import { useBookPreviewsStatus } from "src/features/bookPreviews/bookPreviewsSlice";
+import { AsyncButton } from "../AsyncButton";
+import STYLES from "./TextInput.module.scss";
 
-import styles from "./TextInput.module.scss";
-const {mainWrapper, labelElem, inputWrapper, inputElem, buttonElem, iElem, hasText: hasTextClassName, focused: isFocusedClassName} = styles;
 const htmlFor = "search-books";
 const labelText = "Search books";
 
 interface Props_TextInput {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  onButtonClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onButtonClick: () => void;
   value: string;
   children?: never;
 }
@@ -17,6 +18,8 @@ export const TextInput: FunctionComponent<Props_TextInput> = ({onChange, onButto
   const ref = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [hasText, setHasText] = useState<boolean>(false);
+
+  const {error, status} = useBookPreviewsStatus();
 
   useEffect(() => {
     const input = ref.current;
@@ -48,35 +51,46 @@ export const TextInput: FunctionComponent<Props_TextInput> = ({onChange, onButto
   };
 
   const getInputWrapperClassName = (): string => {
-    let cname = inputWrapper;
+    let cname = STYLES.inputWrapper;
     if (hasText) {
-      cname += " " + hasTextClassName;
+      cname += " " + STYLES.hasText;
     }
     if (isFocused) {
-      cname += " " + isFocusedClassName;
+      cname += " " + STYLES.isFocused;
     }
     return cname;
   };
   
   return (
-    <div className={mainWrapper}>
-      <label className={labelElem} htmlFor={htmlFor}>{labelText}</label>
+    <div className={STYLES.mainWrapper}>
+      <label className={STYLES.labelElem} htmlFor={htmlFor}>{labelText}</label>
       <div className={`${getInputWrapperClassName()}`}>
         <input 
           ref={ref}
-          className={inputElem}
+          className={STYLES.inputElem}
           id={htmlFor}
           type="text"
           onChange={onChangeIntercept}
           value={value}
         />
-        <button 
-          className={`raw-button ${buttonElem}`}
+
+        <AsyncButton 
+          className={{
+            "idle": `${STYLES.buttonElem}`,
+            "error": `${STYLES.buttonElem} ${STYLES.error}`,
+            "loading": `${STYLES.buttonElem}`,
+            "success": `${STYLES.buttonElem} ${STYLES.success}`
+          }}
+          error={!!error}
+          isLoading={status === "loading"}
+          iconClass={{
+            "idle": `icon-arrows-cw spin`,
+            "error": `icon-cw`,
+            "loading": `icon-arrows-cw spin`,
+            "success": `icon-ok`
+          }}
           onClick={onButtonClick}
-          tabIndex={undefined}
-        >
-          <i className={`icon-search ${iElem}`} />
-        </button>
+        />
       </div>
     </div>
   );
