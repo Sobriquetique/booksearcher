@@ -28,32 +28,51 @@ export function SelectInput<T extends SelectOptionName>({options, labelText, val
   const [iconClassName, setIconClassName] = useState<string>(options[0].iconClass);
 
   const optionsWrapperRef = useRef<HTMLButtonElement>(null);
-  const optionRefs = useRef<Array<HTMLAnchorElement>>([]);
-
-  const mouseEnterOptionsWrapper = () => setIsMenuShown(true);
-  const mouseLeaveOptionsWrapper = () => setIsMenuShown(false);
+  
   useEffect(() => {
     const optionsWrapper = optionsWrapperRef.current;
-    const optionElems = optionRefs.current;
     if (!optionsWrapper) return;
 
-    optionsWrapper.addEventListener("mouseenter", mouseEnterOptionsWrapper);
-    optionsWrapper.addEventListener("mouseleave", mouseLeaveOptionsWrapper);
+    const mouseOverOptionsWrapper = () => {
+      setIsMenuShown(true);
+  
+      const handleMouseOut = (event: MouseEvent) => {
+        const related = event.relatedTarget as HTMLElement;
+        //Если курсор перешел неизвестно куда или на сам враппер - грохаем
+        if (!related || related.isEqualNode(optionsWrapper)) return;
 
-    optionElems.forEach((elem: HTMLAnchorElement, i: number) => {
-      const mouseEnterOption = () => {
-        setValue(options[i].value);
-        setIconClassName(options[i].iconClass);
+        //Смотрим, чтобы меню оставалось показанным, если курсор "вышел" из враппера в его чилдов
+        let target: HTMLElement | null = related;
+        let parent = related.parentElement;
+        while (parent !== null) {
+          if (target && target.hasAttribute("data-options-index")) {
+            const optionIndexValue = target.getAttribute("data-options-index");
+            if (optionIndexValue) {
+              const optionIndex = parseInt(optionIndexValue);
+              setValue(options[optionIndex].value);
+              setIconClassName(options[optionIndex].iconClass);
+            }
+            
+          }
+          if (parent.isEqualNode(optionsWrapper)) return;
+          parent = parent.parentElement;
+          target = parent;
+        }
+
+        //скрываем контент, если дропдаун ушел куда-то, кроме самого враппера
+        setIsMenuShown(false);
+        optionsWrapper.removeEventListener("mouseout", handleMouseOut);
       };
-      
-      elem.addEventListener("mouseenter", mouseEnterOption);
-    });
+
+      optionsWrapper.addEventListener("mouseout", handleMouseOut);
+    }
+
+    optionsWrapper.addEventListener("mouseenter", mouseOverOptionsWrapper);
 
     return () => {
-      optionsWrapper.removeEventListener("mouseenter", mouseEnterOptionsWrapper);
-      optionsWrapper.removeEventListener("mouseleave", mouseLeaveOptionsWrapper);
+      optionsWrapper.removeEventListener("mouseenter", mouseOverOptionsWrapper);
     };
-  }, [options, setValue, optionRefs]);
+  }, [options, setValue]);
 
   const onOptionClick = (value: T) => () => {
     setValue(value);
@@ -71,6 +90,7 @@ export function SelectInput<T extends SelectOptionName>({options, labelText, val
       <button 
         className={STYLES.pseudoSelectWrapper}
         ref={optionsWrapperRef}
+        onClick={(event: React.MouseEvent) => event.preventDefault()}
       >
         <div className={STYLES.pseudoSelect}>
           <i className={iconClassName} />
@@ -84,14 +104,10 @@ export function SelectInput<T extends SelectOptionName>({options, labelText, val
             options.map(({iconClass, value}: SelectOption<T>, i: number) => {
               return (
                 <a
+                  data-options-index={i}
                   href="/"
                   key={i}
                   className={STYLES.optionContainer}
-                  ref={elem => {
-                    if (elem) {
-                      optionRefs.current[i] = elem
-                    }
-                  }}
                   onClick={onOptionClick(value)}
                 >
                   <i
