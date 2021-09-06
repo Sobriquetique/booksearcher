@@ -1,22 +1,42 @@
 import { CategoryName } from "src/types/Category";
 import { OrderByName } from "src/types/OrderByName";
+import { DEFAULT_MAX_RESULTS } from "src/_CONSTANTS/general";
 import { LOCAL_ORDER_NAMES_TO_API_MAP } from "src/_CONSTANTS/searchOptions";
 
-export const endpoint = "https://www.googleapis.com/books/v1/volumes";
+export const baseApiUrl = "https://www.googleapis.com/books/v1/volumes";
 export const apiKey = "AIzaSyAGf2BYSuVZJKguW5B_sEUBK3HGkDjqqNs";
 
-export function getBookVolumesResponse(query: string, category: CategoryName, order: OrderByName): Promise<Response> {
+interface Options_getBookVolumesResponse {
+  query: string;
+  category: CategoryName;
+  order: OrderByName;
+  startIndex?: number;
+  maxResults?: number;
+}
+
+export function getBookVolumesResponse({query, category, order, startIndex, maxResults}: Options_getBookVolumesResponse): Promise<Response> {
   console.log("fetch attempt");
-  const normalizedQuery = query.trim().replace(/\s+/g, " ").split(" ").join("+");
+
+  let normalizedQuery: string = query.trim().replace(/\s+/g, " ").split(" ").join("+");
   
   //Можно не указывать в запросе категорию, если хотим книги из всех категорий
-  let categoryString = "";
   if (category !== "All") {
-    categoryString = "+subject:" + category.toLowerCase();
+    normalizedQuery += "+subject:" + category.toLowerCase();
   }
-  
-  const apiOrderString = "&orderBy=" + LOCAL_ORDER_NAMES_TO_API_MAP[order];
 
+  const queryParams: string[] = [
+    "startIndex=" + (startIndex ? startIndex : "0"),
 
-  return fetch(`${endpoint}?q=${normalizedQuery}${categoryString}${apiOrderString}&key=${apiKey}`);
+    "maxResults=" + (maxResults ? maxResults : DEFAULT_MAX_RESULTS),
+
+    "orderBy=" + LOCAL_ORDER_NAMES_TO_API_MAP[order],
+
+    "key=" + apiKey
+  ]
+
+  const paramsString: string = queryParams.reduce<string>((result: string, paramStr: string, i: number) => result + "&" + paramStr, "" as string)
+
+  const finalRequestUrl = `${baseApiUrl}?q=${normalizedQuery}${paramsString}`;
+
+  return fetch(finalRequestUrl);
 }

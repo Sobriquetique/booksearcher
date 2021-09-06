@@ -4,24 +4,24 @@ import { CategoryName } from "src/types/Category";
 import { GoogleAPIBookVolumes, Volume } from "src/types/GoogleAPI";
 import { OrderByName } from "src/types/OrderByName";
 import { mapAPIToLocal } from "src/utils/mapAPIToLocal";
-import { FetchBookPreviewsThunk_Return } from "./bookPreviewsSlice";
+import { FetchLoadMoreThunk_Return } from "./bookPreviewsSlice";
 
 interface ThunkArgs {
   query: string;
   category: CategoryName;
   order: OrderByName;
 
+  startIndex: number;
   /** Добавляем возможность передавать из стейта на случай, если захотим настраивать пагинацию динамически */
   maxResults?: number;
 }
 
-/** Фетчит книги с нуля. Обнулить current list книг и засунуть туда этот в экстра редусерах. */
-export const fetchFreshBookPreviews = createAsyncThunk<FetchBookPreviewsThunk_Return, ThunkArgs, { rejectValue: string }>(
-  "bookPreviews/fetch",
-  async ({query, category, order, maxResults}: ThunkArgs, {rejectWithValue}) => {
+export const fetchLoadMoreBooks = createAsyncThunk<FetchLoadMoreThunk_Return, ThunkArgs, { rejectValue: string }>(
+  "bookPreviews/loadMore",
+  async ({query, category, order, startIndex, maxResults}: ThunkArgs, {rejectWithValue}) => {
     try {
       const response = await getBookVolumesResponse({
-        query, category, order, startIndex: 0, maxResults
+        query, category, order, startIndex, maxResults
       });
       if (!response.ok) {
         const errorResponseBody = await response.json();
@@ -33,25 +33,11 @@ export const fetchFreshBookPreviews = createAsyncThunk<FetchBookPreviewsThunk_Re
 
       return {
         list: data.items.map((volume: Volume) => mapAPIToLocal(volume)),
-        foundCount: data.totalItems,
-        newCategory: category,
-        newOrder: order,
-        newQuery: query
+        foundCount: data.totalItems
       }
-      
     }
     catch (e) {
-      return rejectWithValue("Failed to fetch books =(");
+      return rejectWithValue("Failed to load more books =(");
     }
   }
 )
-
-/** Get standart data fetching thunk */
-// export function getStandartThunk<TData, TArgs>(typePrefix: string, fetcher: (...args: )) {
-//   return createAsyncThunk<TData, TArgs, { rejectValue: Error}>(
-//     typePrefix,
-//     () => {
-
-//     }
-//   )
-// }
