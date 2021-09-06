@@ -27,11 +27,11 @@ export function SelectInput<T extends SelectOptionName>({options, labelText, val
   const [isMenuShown, setIsMenuShown] = useState<boolean>(false);
   const [iconClassName, setIconClassName] = useState<string>(options[0].iconClass);
 
-  const optionsWrapperRef = useRef<HTMLButtonElement>(null);
+  const pseudoSelectWrapperRef = useRef<HTMLButtonElement>(null);
   
   useEffect(() => {
-    const optionsWrapper = optionsWrapperRef.current;
-    if (!optionsWrapper) return;
+    const pseudoSelectWrapper = pseudoSelectWrapperRef.current;
+    if (!pseudoSelectWrapper) return;
 
     const mouseOverOptionsWrapper = () => {
       setIsMenuShown(true);
@@ -39,7 +39,7 @@ export function SelectInput<T extends SelectOptionName>({options, labelText, val
       const handleMouseOut = (event: MouseEvent) => {
         const related = event.relatedTarget as HTMLElement;
         //Если курсор перешел неизвестно куда или на сам враппер - грохаем
-        if (!related || related.isEqualNode(optionsWrapper)) return;
+        if (!related || related.isEqualNode(pseudoSelectWrapper)) return;
 
         //Смотрим, чтобы меню оставалось показанным, если курсор "вышел" из враппера в его чилдов
         let target: HTMLElement | null = related;
@@ -54,27 +54,59 @@ export function SelectInput<T extends SelectOptionName>({options, labelText, val
             }
             
           }
-          if (parent.isEqualNode(optionsWrapper)) return;
+          if (parent.isEqualNode(pseudoSelectWrapper)) return;
           parent = parent.parentElement;
           target = parent;
         }
 
         //скрываем контент, если дропдаун ушел куда-то, кроме самого враппера
         setIsMenuShown(false);
-        optionsWrapper.removeEventListener("mouseout", handleMouseOut);
+        pseudoSelectWrapper.removeEventListener("mouseout", handleMouseOut);
       };
 
-      optionsWrapper.addEventListener("mouseout", handleMouseOut);
+      pseudoSelectWrapper.addEventListener("mouseout", handleMouseOut);
+    }
+    const focusOutHandler = (event: FocusEvent) => {
+      const related = event.relatedTarget as HTMLElement;
+      console.log("related: ", related);
+      if (!related) {
+        setIsMenuShown(false);
+        return;
+      }
+
+      let target: HTMLElement | null = related;
+      let parent: HTMLElement | null = related.parentElement;
+      while (parent !== null) {
+        if (target && target.hasAttribute("data-options-index")) {
+          const optionIndexValue = target.getAttribute("data-options-index");
+          if (optionIndexValue) {
+            const optionIndex = parseInt(optionIndexValue);
+            setValue(options[optionIndex].value);
+            setIconClassName(options[optionIndex].iconClass);
+          }
+          
+        }
+        if (parent.isEqualNode(pseudoSelectWrapper)) {
+          console.log("equal");
+          return;
+        }
+        parent = parent.parentElement;
+      }
+
+      setIsMenuShown(false);
     }
 
-    optionsWrapper.addEventListener("mouseenter", mouseOverOptionsWrapper);
+    pseudoSelectWrapper.addEventListener("mouseenter", mouseOverOptionsWrapper);
+    pseudoSelectWrapper.addEventListener("focusout", focusOutHandler);
 
     return () => {
-      optionsWrapper.removeEventListener("mouseenter", mouseOverOptionsWrapper);
+      pseudoSelectWrapper.removeEventListener("mouseenter", mouseOverOptionsWrapper);
+      pseudoSelectWrapper.removeEventListener("focusout", focusOutHandler);
     };
   }, [options, setValue]);
 
-  const onOptionClick = (value: T) => () => {
+  const onOptionClick = (value: T) => (event: React.MouseEvent) => {
+    event.preventDefault();
     setValue(value);
     setIsMenuShown(false); 
   };
@@ -89,8 +121,7 @@ export function SelectInput<T extends SelectOptionName>({options, labelText, val
 
       <button 
         className={STYLES.pseudoSelectWrapper}
-        ref={optionsWrapperRef}
-        onClick={(event: React.MouseEvent) => event.preventDefault()}
+        ref={pseudoSelectWrapperRef}
       >
         <div className={STYLES.pseudoSelect}>
           <i className={iconClassName} />

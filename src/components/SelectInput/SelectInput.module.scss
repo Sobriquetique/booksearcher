@@ -70,7 +70,7 @@ $pseudoSelectHoverBg: rgb(194, 193, 193);
   background-color: $pseudoSelectHoverBg;
 }
 
-.pseudoSelectWrapper:focus-visible > .optionsWrapper, .pseudoSelectWrapper:focus-within > .optionsWrapper {
+.pseudoSelectWrapper:focus-visible > .optionsWrapper {
   visibility: visible;
 }
 
