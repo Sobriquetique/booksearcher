@@ -27,7 +27,7 @@ export function SelectInput<T extends SelectOptionName>({options, labelText, val
   const [isMenuShown, setIsMenuShown] = useState<boolean>(false);
   const [iconClassName, setIconClassName] = useState<string>(options[0].iconClass);
 
-  const pseudoSelectWrapperRef = useRef<HTMLButtonElement>(null);
+  const pseudoSelectWrapperRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const pseudoSelectWrapper = pseudoSelectWrapperRef.current;
@@ -66,42 +66,11 @@ export function SelectInput<T extends SelectOptionName>({options, labelText, val
 
       pseudoSelectWrapper.addEventListener("mouseout", handleMouseOut);
     }
-    const focusOutHandler = (event: FocusEvent) => {
-      const related = event.relatedTarget as HTMLElement;
-      console.log("related: ", related);
-      if (!related) {
-        setIsMenuShown(false);
-        return;
-      }
-
-      let target: HTMLElement | null = related;
-      let parent: HTMLElement | null = related.parentElement;
-      while (parent !== null) {
-        if (target && target.hasAttribute("data-options-index")) {
-          const optionIndexValue = target.getAttribute("data-options-index");
-          if (optionIndexValue) {
-            const optionIndex = parseInt(optionIndexValue);
-            setValue(options[optionIndex].value);
-            setIconClassName(options[optionIndex].iconClass);
-          }
-          
-        }
-        if (parent.isEqualNode(pseudoSelectWrapper)) {
-          console.log("equal");
-          return;
-        }
-        parent = parent.parentElement;
-      }
-
-      setIsMenuShown(false);
-    }
-
+  
     pseudoSelectWrapper.addEventListener("mouseenter", mouseOverOptionsWrapper);
-    pseudoSelectWrapper.addEventListener("focusout", focusOutHandler);
 
     return () => {
       pseudoSelectWrapper.removeEventListener("mouseenter", mouseOverOptionsWrapper);
-      pseudoSelectWrapper.removeEventListener("focusout", focusOutHandler);
     };
   }, [options, setValue]);
 
@@ -119,7 +88,7 @@ export function SelectInput<T extends SelectOptionName>({options, labelText, val
         {labelText}
       </label>
 
-      <button 
+      <div
         className={STYLES.pseudoSelectWrapper}
         ref={pseudoSelectWrapperRef}
       >
@@ -134,9 +103,8 @@ export function SelectInput<T extends SelectOptionName>({options, labelText, val
           {
             options.map(({iconClass, value}: SelectOption<T>, i: number) => {
               return (
-                <a
+                <div
                   data-options-index={i}
-                  href="/"
                   key={i}
                   className={STYLES.optionContainer}
                   onClick={onOptionClick(value)}
@@ -147,12 +115,12 @@ export function SelectInput<T extends SelectOptionName>({options, labelText, val
                   <span 
                     className={STYLES.optionText}
                   >{value}</span>
-                </a>
+                </div>
               );
             })
           }
         </div>
-      </button>
+      </div>
     </div>
   );
 }
