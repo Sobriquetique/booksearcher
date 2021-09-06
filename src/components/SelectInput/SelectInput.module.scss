@@ -63,11 +63,15 @@ $darkBg: rgb(139, 139, 139);
 }
 
 $pseudoSelectHoverBg: rgb(194, 193, 193);
-.pseudoSelectWrapper:focus-visible, .pseudoSelectWrapper:focus-within, .pseudoSelectWrapper:hover > .pseudoSelect {
+.pseudoSelectWrapper:focus-visible > .pseudoSelect, .pseudoSelectWrapper:focus-within > .pseudoSelect, .pseudoSelectWrapper:hover > .pseudoSelect {
   background-color: $pseudoSelectHoverBg;
 }
 .pseudoSelect:hover {
   background-color: $pseudoSelectHoverBg;
+}
+
+.pseudoSelectWrapper:focus-visible > .optionsWrapper, .pseudoSelectWrapper:focus-within > .optionsWrapper {
+  visibility: visible;
 }
 
 .optionsWrapper {
