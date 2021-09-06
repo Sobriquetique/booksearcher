@@ -42,6 +42,7 @@ a:active {
 }
 
 .spin {
+  display: block;
   animation: noscope 2s linear infinite;
   z-index: 100;
 }

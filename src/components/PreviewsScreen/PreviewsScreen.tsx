@@ -45,8 +45,7 @@ export const PreviewsScreen = () => {
           "success": `${STYLES.loadMoreButton} ${STYLES.success}`,
         }}
         iconClass={{
-          //icon-down-open
-          idle: "icon-arrows-cw spin",
+          idle: "icon-down-open",
           error: "icon-cw",
           loading: "icon-arrows-cw spin",
           success: "icon-ok"

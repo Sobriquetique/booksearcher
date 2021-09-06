@@ -84,7 +84,7 @@ export const TextInput: FunctionComponent<Props_TextInput> = ({onChange, onButto
           error={!!error}
           isLoading={status === "loading"}
           iconClass={{
-            "idle": `icon-arrows-cw spin`,
+            "idle": `icon-search`,
             "error": `icon-cw`,
             "loading": `icon-arrows-cw spin`,
             "success": `icon-ok`
