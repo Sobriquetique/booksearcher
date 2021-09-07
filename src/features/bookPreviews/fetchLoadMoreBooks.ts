@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getBookVolumesResponse } from "src/api/bookPreviews";
 import { CategoryName } from "src/types/Category";
-import { GoogleAPIBookVolumes, Volume } from "src/types/GoogleAPI";
+import { GoogleAPIBookVolumes } from "src/types/GoogleAPI";
 import { OrderByName } from "src/types/OrderByName";
-import { mapAPIToLocal } from "src/utils/mapAPIToLocal";
+import { mapAPIPreviewsToLocal } from "src/utils/mapAPIToLocal";
 import { FetchLoadMoreThunk_Return } from "./bookPreviewsSlice";
 
 interface ThunkArgs {
@@ -32,7 +32,7 @@ export const fetchLoadMoreBooks = createAsyncThunk<FetchLoadMoreThunk_Return, Th
       const data: GoogleAPIBookVolumes = await response.json();
 
       return {
-        list: data.items.map((volume: Volume) => mapAPIToLocal(volume)),
+        list: mapAPIPreviewsToLocal(data.items),
         foundCount: data.totalItems
       }
     }

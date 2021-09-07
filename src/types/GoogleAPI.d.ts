@@ -1,10 +1,10 @@
 /** Тип данных, приходящих с апи гугл букс. Интерфейс перечисляет только нужные мне поля */
 export interface GoogleAPIBookVolumes {
-  items: Volume[];
+  items: GoogleAPI_Volume[];
   totalItems: number;
 }
 
-interface Volume {
+interface GoogleAPI_Volume {
   id: string;
   volumeInfo: {
     authors: string[];
@@ -15,4 +15,18 @@ interface Volume {
     },
     title: string;
   }
+}
+
+interface GoogleAPI_VolumeFull {
+  id: string;
+  volumeInfo: {
+    title: string;
+    authors?: string[];
+    mainCategory?: string;
+    categories?: string[];
+    imageLinks: {
+      large: string;
+    },
+    description?: string;
+  };
 }

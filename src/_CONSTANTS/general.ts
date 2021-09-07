@@ -8,4 +8,6 @@ export const BACKEND_BASE_URL = "http://localhost:4000/";
 /** Дефолтная пагинация для превью книг */
 export const DEFAULT_MAX_RESULTS = 1;
 
-export const PAGE_FADE_TIMEOUT = 2000;
+export const PAGE_FADE_TIMEOUT = 400;
+
+export const apiKey = "AIzaSyAGf2BYSuVZJKguW5B_sEUBK3HGkDjqqNs";

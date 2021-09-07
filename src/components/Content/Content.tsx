@@ -24,7 +24,7 @@ export const Content = () => {
           default: {
             return (
               <div className={STYLES.noPage}>
-                Oops! You aren't supposed to see this, something has gone terribly wrong. Try refreshing the page.
+                Oops! You aren't supposed to see this, something had gone terribly wrong. Try refreshing the page.
               </div>
             )
           }

@@ -1,10 +1,9 @@
 import { CategoryName } from "src/types/Category";
 import { OrderByName } from "src/types/OrderByName";
-import { DEFAULT_MAX_RESULTS } from "src/_CONSTANTS/general";
+import { apiKey, DEFAULT_MAX_RESULTS } from "src/_CONSTANTS/general";
 import { LOCAL_ORDER_NAMES_TO_API_MAP } from "src/_CONSTANTS/searchOptions";
 
 export const baseApiUrl = "https://www.googleapis.com/books/v1/volumes";
-export const apiKey = "AIzaSyAGf2BYSuVZJKguW5B_sEUBK3HGkDjqqNs";
 
 interface Options_getBookVolumesResponse {
   query: string;
@@ -15,8 +14,6 @@ interface Options_getBookVolumesResponse {
 }
 
 export function getBookVolumesResponse({query, category, order, startIndex, maxResults}: Options_getBookVolumesResponse): Promise<Response> {
-  console.log("fetch attempt");
-
   let normalizedQuery: string = query.trim().replace(/\s+/g, " ").split(" ").join("+");
   
   //Можно не указывать в запросе категорию, если хотим книги из всех категорий

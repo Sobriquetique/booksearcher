@@ -1,5 +1,7 @@
 import { FunctionComponent } from "react";
 import { useDispatch } from "react-redux";
+import { useCurrentBook } from "src/features/currentBook/currentBookSlice";
+import { fetchBookOrGetCached } from "src/features/currentBook/fetchBookOrGetCached";
 import { smoothNavigate } from "src/features/navigation/smoothNavigate";
 import { BookPreview } from "src/types/BookPreview";
 import STYLES from "./BookPreviewComponent.module.scss";
@@ -11,6 +13,7 @@ interface Props_BookPreviewComponent {
 
 export const BookPreviewComponent: FunctionComponent<Props_BookPreviewComponent> = ({bookPreviewData}: Props_BookPreviewComponent) => {
   const {id, authors, title, imgSrc, category} = bookPreviewData;
+  const { cachedBooks } = useCurrentBook();
 
   const authorsCombined = authors.reduce<string>((result: string, nextAuthor: string, i: number) => {
     const commaExceptAfterLast = i === authors.length - 1 ? "" : ", ";
@@ -24,6 +27,10 @@ export const BookPreviewComponent: FunctionComponent<Props_BookPreviewComponent>
     <div 
       className={STYLES.container}
       onClick={() => {
+        dispatch(fetchBookOrGetCached({
+          idToFetch: id,
+          cachedBooks
+        }));
         dispatch(smoothNavigate("book"));
       }}
     >
