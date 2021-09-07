@@ -8,6 +8,7 @@ import { TextInput } from "../TextInput";
 import STYLES from "./Header.module.scss";
 import { useDispatch } from "react-redux";
 import { fetchFreshBookPreviews } from "src/features/bookPreviews/fetchFreshBookPreviews";
+import { smoothNavigate } from "src/features/navigation/smoothNavigate";
 
 export const Header: FunctionComponent = () => {
 
@@ -28,6 +29,7 @@ export const Header: FunctionComponent = () => {
       category,
       order: orderBy
     }));
+    dispatch(smoothNavigate("previews"));
   };
 
   return (
