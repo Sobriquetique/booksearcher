@@ -1,4 +1,6 @@
 import { FunctionComponent } from "react";
+import { useDispatch } from "react-redux";
+import { smoothNavigate } from "src/features/navigation/smoothNavigate";
 import { BookPreview } from "src/types/BookPreview";
 import STYLES from "./BookPreviewComponent.module.scss";
 
@@ -15,9 +17,16 @@ export const BookPreviewComponent: FunctionComponent<Props_BookPreviewComponent>
     return result + nextAuthor + commaExceptAfterLast;
   }, "" as string);
   const alt = authorsCombined + " - " + title;
-  
+
+  const dispatch = useDispatch();
+
   return (
-    <div className={STYLES.container}>
+    <div 
+      className={STYLES.container}
+      onClick={() => {
+        dispatch(smoothNavigate("book"));
+      }}
+    >
       <figure className={STYLES.imgFit}>
         <img
           alt={alt}

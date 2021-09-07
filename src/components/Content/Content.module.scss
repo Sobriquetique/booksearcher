@@ -1,0 +1,8 @@
+.container {
+  transition: opacity 2s ease;
+  opacity: 1;
+}
+
+.hidden {
+  opacity: 0;
+}

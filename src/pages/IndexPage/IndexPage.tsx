@@ -2,12 +2,12 @@ import { useDispatch } from "react-redux";
 import { useBookPreviews } from "src/features/bookPreviews/bookPreviewsSlice";
 import { fetchLoadMoreBooks } from "src/features/bookPreviews/fetchLoadMoreBooks";
 import { BookPreview } from "src/types/BookPreview";
-import { AsyncButton } from "../AsyncButton";
-import { BookPreviewComponent } from "../BookPreviewComponent";
+import { AsyncButton } from "src/components/AsyncButton";
+import { BookPreviewComponent } from "src/components/BookPreviewComponent";
 
-import STYLES from "./PreviewsScreen.module.scss";
+import STYLES from "./IndexPage.module.scss";
 
-export const PreviewsScreen = () => {
+export const IndexPage = () => {
   const dispatch = useDispatch();
   const { status, error, maxResults,
     items: {
