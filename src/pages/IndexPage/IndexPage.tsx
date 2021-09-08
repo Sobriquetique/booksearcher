@@ -29,6 +29,28 @@ export const IndexPage = () => {
     }));
   }
 
+  const renderFoundInfo = (): JSX.Element => {
+    if (currentQuery === "") {
+      return <h3 className={STYLES.foundInfo}>Waiting for you to search</h3>;
+    }
+
+    const foundString = `Found ${foundCount} books in category "${currentCategory}", ordered by: ${currentOrder}`;
+    const queryString = currentQuery.length < 33 
+      ? currentQuery
+      : currentQuery.slice(0, 32).replace(/\s+$/, "") + "..."
+    ;
+    const showingString = `Showing ${list.length}`;
+    return (
+      <div className={STYLES.foundInfoContainer}>
+        <h3 className={STYLES.foundInfo}>
+          {foundString}
+        </h3>
+        <span className={STYLES.query}>{`On request: "${queryString}"`}</span>
+        <span className={STYLES.showing}>{showingString}</span>
+      </div>
+    )
+  }
+
   const renderLoadMoreButton = (): JSX.Element | undefined => {
     if (list.length === 0 || list.length === foundCount) {
       return;
@@ -63,7 +85,9 @@ export const IndexPage = () => {
 
   return (
     <div className={STYLES.container}>
-      <h3 className={STYLES.foundInfo}>{`Found ${foundCount} books`}</h3>
+      {
+        renderFoundInfo()
+      }
       <div className={STYLES.previews}>
         {
           list.map((bookPreviewData: BookPreview, i: number) => {

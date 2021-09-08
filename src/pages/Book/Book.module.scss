@@ -61,6 +61,7 @@
 }
 
 .imgFit {
+  flex: 0 0 auto;
   background-color: rgb(224, 223, 223);
   padding: 1rem;
   margin-left: auto;
@@ -83,6 +84,7 @@
 }
 
 .body {
+  flex: 1 1 auto;
   margin-top: 2rem;
 
   @media screen and (min-width: map.get($breakpoints, bookDesktop)) {
