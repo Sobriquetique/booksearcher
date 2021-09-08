@@ -48,6 +48,10 @@ export const AsyncButton: FunctionComponent<Props_AsyncButton> = ({isLoading, er
         }, 2000)
       ) 
     }
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    }
   }, [isLoading, error, localWasLoading, timeoutId]);
 
   let currentText: string | undefined = undefined;

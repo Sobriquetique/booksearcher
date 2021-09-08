@@ -12,15 +12,10 @@ const renderBook = (book: BookFull): JSX.Element => {
   } = book;
   
   const authorsString = authors.length === 0 ? "Author unknown" : reduceWithCommas(authors);
-  let categoriesString;
-  if (mainCategory && categories.length > 0) {
-    categoriesString = reduceWithSlashes([mainCategory, ...categories]);
-  }
-  else if (mainCategory) {
-    categoriesString = mainCategory;
-  }
-  else {
-    categoriesString = "No category";
+  
+  let resultCategories = mainCategory ? [mainCategory, ...categories] : [...categories];
+  if (resultCategories.length === 0) {
+    resultCategories.push("No category");
   }
 
   const alt = authorsString + " - " + title;
@@ -33,9 +28,13 @@ const renderBook = (book: BookFull): JSX.Element => {
         />
       </figure>
       <div className={STYLES.body}>
-        <span className={STYLES.categories}>
-          {categoriesString}
-        </span>
+        <div className={STYLES.categories}>
+          {
+            resultCategories.map((cat: string, i: number) => (
+              <div key={i}>{cat}</div>
+            ))
+          }
+        </div>
         <h3 className={STYLES.title}>
           {title}
         </h3>
@@ -89,7 +88,8 @@ export const Book = () => {
     <div className={STYLES.container}>
       <button 
         className={STYLES.goBackNav}
-        onClick={() => {
+        onClick={(event: React.MouseEvent) => {
+          event.preventDefault();
           dispatch(smoothNavigate("previews"));
         }}
       >

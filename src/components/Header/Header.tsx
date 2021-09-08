@@ -9,12 +9,15 @@ import STYLES from "./Header.module.scss";
 import { useDispatch } from "react-redux";
 import { fetchFreshBookPreviews } from "src/features/bookPreviews/fetchFreshBookPreviews";
 import { smoothNavigate } from "src/features/navigation/smoothNavigate";
+import { useNavigation } from "src/features/navigation/navigationSlice";
 
 export const Header: FunctionComponent = () => {
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [category, setCategory] = useState<CategoryName>("All");
   const [orderBy, setOrderBy] = useState<OrderByName>("Relevant");
+
+  const { currentPage } = useNavigation();
 
   const dispatch = useDispatch();
 
@@ -29,7 +32,9 @@ export const Header: FunctionComponent = () => {
       category,
       order: orderBy
     }));
-    dispatch(smoothNavigate("previews"));
+    if (currentPage !== "previews") {
+      dispatch(smoothNavigate("previews"));
+    }
   };
 
   return (

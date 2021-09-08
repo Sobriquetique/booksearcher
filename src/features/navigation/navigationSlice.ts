@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { RootState } from "src/store/store";
-import { smoothNavigate } from "./smoothNavigate";
+import { finishTransition, smoothNavigate } from "./smoothNavigate";
 
 export type PageName = "previews" | "book";
 export type NavigationStatus = "IDLE" | "FADE" | "REVEAL";
@@ -16,30 +16,27 @@ const initialState: NavigationState = {
   status: "IDLE"
 }
 
-const {reducer, actions} = createSlice({
+const {reducer} = createSlice({
   name: "navigation",
   initialState,
-  reducers: {
-    setReveal: (_, {payload}: PayloadAction<PageName>) => ({
-      currentPage: payload,
-      status: "REVEAL"
-    })
-  },
+  reducers: {},
   extraReducers: builder => {
-    builder.addCase(smoothNavigate.pending, (state: NavigationState) => ({
-      ...state,
-      status: "FADE" as NavigationStatus
-    }));
+    builder.addCase(smoothNavigate.pending, (state: NavigationState) => {
+      state.status = "FADE";
+    });
     
-    builder.addCase(smoothNavigate.fulfilled, (state: NavigationState) => ({
-      ...state,
-      status: "IDLE" as NavigationStatus
-    }))
+    builder.addCase(smoothNavigate.fulfilled, (state: NavigationState, {payload}: PayloadAction<PageName>) => {
+      state.status = "REVEAL";
+      state.currentPage = payload;
+    });
+
+    builder.addCase(finishTransition.fulfilled, (state: NavigationState) => {
+      state.status = "IDLE";
+    })
   }
 });
 
 export default reducer;
-export const {setReveal} = actions;
 
 export const useNavigation = (): RootState["navigation"] => useSelector((state: RootState) => state.navigation);
 

@@ -1,3 +1,145 @@
-.container {
+@use "sass:map";
+@import "src/styles/_var";
 
+.container {
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem 1rem;
+}
+
+.goBackNav {
+  appearance: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background-color: inherit;
+  transition: color 0.3s ease, transform 0.3s ease;
+
+  font-size: 2rem;
+  font-weight: bold;
+  color: rgb(139, 139, 139);
+
+  i {
+    margin-right: 0.5rem;
+  }
+}
+
+.goBackNav:hover, .goBackNav:focus-visible {
+  color: rgb(71, 68, 102);
+  transform: scale(1.1);
+}
+
+.loading {
+  height: 100%;
+  color: rgb(139, 139, 139);
+  display: grid;
+  font-size: 5rem;
+  place-items: center;
+}
+
+.error {
+  height: 100%;
+  color: rgb(102, 62, 62);
+  font-size: 3rem;
+  display: grid;
+  place-items: center;
+}
+
+.bookContainer {
+  margin-top: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  min-height: 100%;
+
+  @media screen and (min-width: map.get($breakpoints, bookDesktop)) {
+    flex-direction: row;
+  }
+}
+
+.imgFit {
+  background-color: rgb(224, 223, 223);
+  padding: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+
+  img {
+    display: block;
+    max-width: 320px;
+    width: 240px;
+    height: 500px;
+    height: auto;
+    object-fit: cover;
+
+    box-shadow: 8px 8px 10px 0 rgba(72, 68, 75, 0.7);
+  }
+}
+
+.body {
+  margin-top: 2rem;
+
+  @media screen and (min-width: map.get($breakpoints, bookDesktop)) {
+    margin-top: 0;
+    padding-left: 2rem;
+  }
+}
+
+.categories {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.categories > * {
+  cursor: default;
+  flex: 0 0 auto;
+  min-width: 64px;
+  padding: 0.5em 1em;
+  
+
+  font-weight: bold;
+  color: rgb(218, 212, 212);
+  font-size: 1.2rem;
+  max-width: 100%;
+
+  background-color: rgb(119, 119, 119);
+  border-radius: 0.25em;
+}
+
+.title {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+
+  font-size: 2.5rem;
+  line-height: 3rem;
+}
+
+.authors {
+  font-size: 1.4rem;
+  color: gray;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.description {
+  margin-top: 2rem;
+  border: solid 3px rgb(179, 177, 177);
+  border-radius: 9px;
+
+  padding: 0.5rem;
+
+  color: rgb(85, 81, 81);
+  font-size: 1.2rem;
+
+  @media screen and (min-width: map.get($breakpoints, bookDesktop)) {
+    padding: 2rem 1rem;
+  }
 }
