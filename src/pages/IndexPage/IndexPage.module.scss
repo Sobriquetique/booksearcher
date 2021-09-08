@@ -22,6 +22,21 @@
   text-align: center;
 }
 
+.foundError {
+  color: rgb(173, 59, 59);
+}
+
+.foundLoading {
+  font-size: 1.5rem;
+  color: rgb(94, 44, 109);
+  font-weight: bold;
+
+  i {
+    margin-right: 0.5rem;
+  }
+}
+
+
 .query {
   color: rgb(165, 164, 165);
   font-size: 1.2rem;

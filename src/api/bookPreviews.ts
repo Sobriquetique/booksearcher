@@ -1,9 +1,7 @@
 import { CategoryName } from "src/types/Category";
 import { OrderByName } from "src/types/OrderByName";
-import { apiKey, DEFAULT_MAX_RESULTS } from "src/_CONSTANTS/general";
+import { basePreviewsUrl, DEFAULT_MAX_RESULTS } from "src/_CONSTANTS/general";
 import { LOCAL_ORDER_NAMES_TO_API_MAP } from "src/_CONSTANTS/searchOptions";
-
-export const baseApiUrl = "https://www.googleapis.com/books/v1/volumes";
 
 interface Options_getBookVolumesResponse {
   query: string;
@@ -27,13 +25,11 @@ export function getBookVolumesResponse({query, category, order, startIndex, maxR
     "maxResults=" + (maxResults ? maxResults : DEFAULT_MAX_RESULTS),
 
     "orderBy=" + LOCAL_ORDER_NAMES_TO_API_MAP[order],
-
-    "key=" + apiKey
   ]
 
   const paramsString: string = queryParams.reduce<string>((result: string, paramStr: string, i: number) => result + "&" + paramStr, "" as string)
 
-  const finalRequestUrl = `${baseApiUrl}?q=${normalizedQuery}${paramsString}`;
+  const finalRequestUrl = `${basePreviewsUrl}volumes?q=${normalizedQuery}${paramsString}`;
 
   return fetch(finalRequestUrl);
 }

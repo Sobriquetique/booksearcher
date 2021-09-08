@@ -30,6 +30,20 @@ export const IndexPage = () => {
   }
 
   const renderFoundInfo = (): JSX.Element => {
+    
+    if (status === "loading") {
+      return <div className={STYLES.foundLoading}>
+        <i className="icon-arrows-cw spin" />
+        <span>Loading...</span>
+      </div>
+    }
+    
+    if (error) {
+      return <h3 className={`${STYLES.foundInfo} ${STYLES.foundError}`}>
+        {`Failed to fetch. Reason: ${error}`}
+      </h3>
+    }
+
     if (currentQuery === "") {
       return <h3 className={STYLES.foundInfo}>Waiting for you to search</h3>;
     }
