@@ -31,6 +31,6 @@ export function mapAPIVolumeToLocal(volume: GoogleAPI_VolumeFull): BookFull {
     categories: categories || [],
     mainCategory,
     description,
-    imgSrc: imageLinks.large
+    imgSrc: imageLinks.thumbnail
   }
 }

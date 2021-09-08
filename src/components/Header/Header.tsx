@@ -27,6 +27,7 @@ export const Header: FunctionComponent = () => {
   };
 
   const doSearch = () => {
+    if (searchValue.length === 0) return;
     dispatch(fetchFreshBookPreviews({
       query: searchValue,
       category,

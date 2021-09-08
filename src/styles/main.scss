@@ -28,6 +28,9 @@ a:active {
   color: black;
 }
 
+#root {
+  min-height: 100vh;
+}
 .appContainer {
   background-color: map.get($colors, bgMain);
   color: map.get($colors, textMain);
@@ -35,10 +38,10 @@ a:active {
 
   display: flex;
   flex-direction: column;
-}
 
-.content {
-  flex: 1 0 auto;
+  main {
+    flex: 1 0 60vh;
+  }
 }
 
 .spin {

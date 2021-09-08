@@ -26,7 +26,6 @@ export const fetchBookOrGetCached = createAsyncThunk<BookFull, ThunkArgs, { reje
       }
 
       const volume = await response.json() as GoogleAPI_VolumeFull;
-      console.log("Volume: ", volume);
       return mapAPIVolumeToLocal(volume);
     }
     catch (err) {

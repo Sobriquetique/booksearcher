@@ -26,6 +26,7 @@ interface GoogleAPI_VolumeFull {
     categories?: string[];
     imageLinks: {
       large: string;
+      thumbnail: string;
     },
     description?: string;
   };

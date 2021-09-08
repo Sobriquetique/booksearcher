@@ -31,7 +31,13 @@
   color: rgb(94, 44, 109);
   font-weight: bold;
 
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
   i {
+    display: block;
     margin-right: 0.5rem;
   }
 }

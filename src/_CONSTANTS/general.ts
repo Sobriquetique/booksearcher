@@ -6,7 +6,7 @@ export const MOBILE_WIDTH_BREAKPOINT = 1080;
 export const RESIZE_THROTTLE_INTERVAL = 1000 / 15;
 
 /** Дефолтная пагинация для превью книг */
-export const DEFAULT_MAX_RESULTS = 1;
+export const DEFAULT_MAX_RESULTS = 30;
 
 export const PAGE_FADE_TIMEOUT = 400;
 

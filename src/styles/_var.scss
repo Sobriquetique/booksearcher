@@ -1,9 +1,9 @@
 $breakpointMobile: 1080px;
 
 $colors: (
-  bgMain: #F4F1DE,
+  bgMain: #e0dfe6,
   bgHeader: #3D405B,
-  bgFooter: #F4F1DE,
+  bgFooter: #595261,
   textMain: black,
 );
 
@@ -27,5 +27,7 @@ $breakpoints: (
   cardWide: 480px,
   cardDesktop: 720px,
 
-  bookDesktop: 720px
+  bookDesktop: 720px,
+
+  footerDesktop: 640px
 );
