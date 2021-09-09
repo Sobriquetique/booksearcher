@@ -1,4 +1,4 @@
 {
-  "BASE_BOOK_URL": "http://localhost:10123/api/books/",
-  "BASE_PREVIEWS_URL": "http://localhost:10123/api/previews/"
+  "BASE_BOOK_URL": "http://localhost:10124/api/books/",
+  "BASE_PREVIEWS_URL": "http://localhost:10124/api/previews/"
 }
