@@ -7,7 +7,7 @@
 - SASS
 - Docker (production build)
 - Nginx (чтобы не обнажать ключ апи Google Books)
-- create-react-app (стыдно, но удобно)
+- Create-react-app
 - Fontello (иконки)
 
 ### Как поднять production билд у себя
@@ -16,6 +16,11 @@
 ```
 git clone https://github.com/Sobriquetique/booksearcher.git booksearcher
 cd booksearcher
+```
+
+- Открываем `./nginx.conf`, ищем на 4-й строчке подобное и меняем ключ на свой (если хотим)
+```
+set $key AIzzSyAGf2CYSuVZJKguW5B_sEKBK3XGkDjqqNs;
 ```
 
 - Собираем docker image
@@ -29,6 +34,11 @@ docker run --name your-container-name -d -p 10124:10123 your-image-name
 ```
 
 - Открываем в браузере localhost:10124
+
+Пара нюансов:
+- Оказывается, обращаться к апи можно без API ключа. Но это приложение все равно шлет запросы с ключом.
+- На некоторые книги (не превью, а по эндпоинту `volumes/${id}`) гугл апи выдает 503 Service unavailable, это нормально. Проверял curl'ом с ключом или без ключа, и они действительно недоступны. Просто жмем под шапкой back и пробуем другие книги.
+- В качестве изображений для полного просмотра конкретной книги выбрал thumbnail'ы вместо больших изображений, потому что в 90% случаев там мусор или плейсхолдеры, а thumbnail'ы есть всегда.
 
 ### Если порты заняты
 
@@ -54,7 +64,7 @@ listen ${ВАШ_ПОРТ};
 EXPOSE ${ВАШ_ПОРТ}
 ```
 
-**Не забываем заново сбилдить docker image**
+#### **Не забываем заново сбилдить docker image**
 ```
 docker build -t your-image-name .
 ```
