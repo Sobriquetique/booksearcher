@@ -26,7 +26,7 @@ export const fetchFreshBookPreviews = createAsyncThunk<FetchBookPreviewsThunk_Re
       if (!response.ok) {
         const errorResponseBody = await response.json();
         console.log(errorResponseBody);
-        throw new Error();
+        return rejectWithValue(`Server responded with ${response.status}`);
       }
 
       const data: GoogleAPIBookVolumes = await response.json();
@@ -40,8 +40,12 @@ export const fetchFreshBookPreviews = createAsyncThunk<FetchBookPreviewsThunk_Re
       }
       
     }
-    catch (e) {
-      return rejectWithValue("Failed to fetch books =(");
+    catch (err) {
+      if (err instanceof Error && !err.message) {
+        return rejectWithValue(err.message);
+      }
+      console.error("Unknown error: ", err);
+      return rejectWithValue("Can't reach resource.")
     }
   }
 )

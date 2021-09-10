@@ -22,7 +22,7 @@ $textColor: rgb(230, 227, 227);
 }
 
 .author {
-  flex: 0 0 auto;
+  flex: 0.5 1 auto;
   padding: 1.5rem 1rem;
   min-width: 240px;
   max-width: 320px;
@@ -68,6 +68,15 @@ $textColor: rgb(230, 227, 227);
     &::after {
       transform: scale(1);
     }
+    color: $textColor;
+  }
+
+  @media screen and (min-width: map.get($breakpoints, footerDesktop)) {
+    max-width: fit-content;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.6rem;
   }
 }
 

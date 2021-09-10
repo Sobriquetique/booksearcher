@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useCurrentBook } from "src/features/currentBook/currentBookSlice";
 import { smoothNavigate } from "src/features/navigation/smoothNavigate";
 import { BookFull } from "src/types/BookFull";
-import { reduceWithCommas, reduceWithSlashes } from "src/utils/reduceString";
+import { reduceWithCommas } from "src/utils/reduceString";
 import STYLES from "./Book.module.scss";
 
 const renderBook = (book: BookFull): JSX.Element => {
